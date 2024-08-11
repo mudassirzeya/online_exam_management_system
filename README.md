@@ -62,7 +62,9 @@ Student Interface:
 
 6) Set Up Google Sheets Integration:
    1. open the sheet https://docs.google.com/spreadsheets/d/1gteH_Qkake4c28gxLcYCWp7NRKLyBbI7oH4sZOSDaqk/edit?gid=12029154#gid=12029154
-   2. Extensions >> Apps Script >> Deploy >> New deployment >> select type: Wen app >> Deploye
+   2. Extensions >> Apps Script >> Deploy >> New deployment >> select type: Wen app >> Deploye >> Copy URL
+   3. add page=jsn in the end of the link you copied for adding questions.
+   4. add page=user in the end of the link you copied for adding students.
 7) Create Superuser (Admin Account): python manage.py createsuperuser
 8) Run the Development Server: python manage.py runserver
 
