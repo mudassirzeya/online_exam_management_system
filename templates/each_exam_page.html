@@ -1,0 +1,205 @@
+{% extends "each_exam_base.html" %}
+{% block breadcrumb %} 
+<h5 class="text-primary mb-0" style="font-weight: bold;"><a class="text-primary" href="{% url 'admin_page' %}">Admin Page</a> <i class="fas fa-angle-double-right"></i> Exam Name: {{exam.exam_name}} </h5> 
+{% endblock breadcrumb %}
+{% block content %}
+{% for message in messages %}
+<p class="text-danger text-center" id="messages">{{message}}</p>
+{% endfor %}
+    <div class="row float-right mr-2">
+        <div class="btn-group">
+            <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                <i class="fas fa-plus"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right slideInUp">
+                <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0)">Add
+                    Question</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" data-toggle="modal" data-target="#add_staff_modal" href="">Add Students</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" data-toggle="modal" data-target="#set_exam_timing" href="">Set Exam Timing</a>
+            </div>
+        </div>
+    </div> 
+    <br>
+    <div class="row mt-4 ml-3 mr-3">
+        <div class="col-lg-4 col-md-6">
+            <a href="{% url 'added_question' exam.id %}">
+                <div class="card card-hover bg-primary">
+                    <div class="card-body">
+                        <div class="d-flex no-block align-items-center">
+                            <div class="text-white">
+                                <span class="h4"><strong>Total Questions Added: </strong> {{total_questions}}</span>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="text-white display-6"><i class="ti-notepad"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <a href="{% url 'added_student' exam.id %}">
+                <div class="card card-hover bg-primary">
+                    <div class="card-body">
+                        <div class="d-flex no-block align-items-center">
+                            <div class="text-white">
+                                <span class="h4"><strong>Total Students Added: </strong> {{total_student}}</span>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="text-white display-6"><i class="fas fa-users"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <div>
+                <div class="card bg-primary">
+                    <div class="card-body">
+                        <div class="d-flex no-block align-items-center">
+                            <div class="text-white">
+                                <span class=""><strong class="h4">Exam Time: </strong> {{exam.exam_start_time}} - {{exam.exam_end_time}}</span>
+                            </div>
+                            <div class="ml-auto">
+                                <span class="text-white display-6"><i class="fas fa-clock"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal for add question-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="exampleModalLongTitle">Add Questions to this Exam</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'add_question' exam.id %}">
+                        {% csrf_token %}
+                        <div class="form-group mb-4">
+                            <label class="mr-sm-2" for="inlineFormCustomSelect">Question link </label>
+                            <input type="text" class="form-control" placeholder="paste link here.." name="question_link"
+                                id="question" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="mr-sm-2" for="inlineFormCustomSelect">Write 'confirm' in this field to upload
+                                question </label>
+                            <input type="text" class="form-control" placeholder="write 'confirm' here.." name="confirm"
+                                id="question_confirm" required>
+                        </div>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-success" type="submit">Add Question</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- modal for add students -->
+    <div class="modal fade" id="add_staff_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="exampleModalLongTitle">Add Students to this Exam
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{% url 'add_student' exam.id %}">
+                        {% csrf_token %}
+                        <div class="form-group mb-4">
+                            <label class="mr-sm-2" for="inlineFormCustomSelect">Link of the student Json</label>
+                            <input type="text" class="form-control" placeholder="paste link here..." name="link" id="link"
+                                required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <label class="mr-sm-2" for="inlineFormCustomSelect">Write 'confirm' in this field to upload
+                                student</label>
+                            <input type="text" class="form-control" placeholder="write 'confirm' here..."
+                                name="student_confirm" id="confirm" required>
+                        </div>
+    
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-success" type="submit">Add student & send them auto generated
+                                password</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- modal for set exam timing  -->
+    <div class="modal fade" id="set_exam_timing" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Set Exam Timing</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="text-center">
+                            <span class="text-center text-danger" id="status">
+                                {% if exam.exam_start_time %} 
+                                Exam Start time is "{{exam.exam_start_time}}" <br> & <br>
+                                End time is "{{exam.exam_end_time}}"
+                                {% else %}
+                                No exam time is set yet!!
+                                {% endif %}
+                            </span>
+                        </div>
+                        <form action="{% url 'exam_page' exam.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Exam Start time</label>
+                                    <input type="datetime-local" id="" value="" name="start_exam" class="form-control">
+                                </div>
+                            </div>
+                            <div class="">
+                                <div class="form-group">
+                                    <label for="exampleFormControlSelect1">Exam end time</label>
+                                    <input type="datetime-local" id="" value="" name="end_exam" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-danger">Set Exam Time</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+           

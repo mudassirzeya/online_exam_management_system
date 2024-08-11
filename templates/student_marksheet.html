@@ -1,0 +1,67 @@
+{% extends "each_exam_base.html" %}
+{% block content %}
+<h2>Students Marksheet</h2>
+<div class="">
+    <a href="#" class="btn btn-success" onclick="download_table_as_csv('file_export');">Download as CSV</a>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover" id="file_export">
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Student Email</th>
+                <th>Student Marks</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in student_marksheet %}
+            <tr>
+                <td>{{student.user.user.first_name}}</td>
+                <td>{{student.user.user.email}}</td>
+                <td>{{student.marks}}</td>
+                <td>
+                    <a href="{% url 'individual_student_marksheet' pk=exam.id id=student.user.user.id %}">
+                    <i class="fas fa-eye"></i>
+                    View Report
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function download_table_as_csv(table_id, separator = ',') {
+            // Select rows from table_id
+            var rows = document.querySelectorAll('table#' + table_id + ' tr');
+            // Construct csv
+            var csv = [];
+            for (var i = 0; i < rows.length; i++) {
+                var row = [], cols = rows[i].querySelectorAll('td, th');
+                for (var j = 0; j < cols.length; j++) {
+                    // Clean innertext to remove multiple spaces and jumpline (break csv)
+                    var data = cols[j].innerText.replace(/(\r\n|\n|\r)/gm, '').replace(/(\s\s)/gm, ' ')
+                    // Escape double-quote with double-double-quote (see https://stackoverflow.com/questions/17808511/properly-escape-a-double-quote-in-csv)
+                    data = data.replace(/"/g, '""');
+                    // Push escaped string
+                    row.push('"' + data + '"');
+                }
+                csv.push(row.join(separator));
+            }
+            var csv_string = csv.join('\n');
+            // Download it
+            var filename = 'export_' + table_id + '_' + new Date().toLocaleDateString() + '.csv';
+            var link = document.createElement('a');
+            link.style.display = 'none';
+            link.setAttribute('target', '_blank');
+            link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv_string));
+            link.setAttribute('download', filename);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+</script>
+
+{% endblock %}

@@ -1,0 +1,402 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon.png' %}">
+    <title>Email</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ampleadmin/" />
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+    <style>
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%;
+            top: 40%;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+    </style>
+</head>
+
+<body style="background-color: #264252;">
+    <div class="main-wrapper">
+        <div id="cover-spin"></div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <div class="preloader">
+            <div class="lds-ripple">
+                <div class="lds-pos"></div>
+                <div class="lds-pos"></div>
+            </div>
+        </div>
+        <!-- ============================================================== -->
+        <!-- Preloader - style you can find in spinners.css -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- Login box.scss -->
+        <!-- ============================================================== -->
+        <div id="first">
+            <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+                <div class="auth-box">
+                    <div>
+                        <div class="logo">
+                            <span class="db"><img src="{% static 'assets/images/logos/logo-icon.png' %}"
+                                    alt="logo" /></span>
+                            <h5 class="font-medium mb-3">Enter Email</h5>
+                        </div>
+                        <!-- Form -->
+                        <div class="row">
+                            <div class="col-12">
+                                <form class="form-horizontal mt-3" action="" method="">
+
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <input class="form-control form-control-lg" id="email_otp" type="text"
+                                                required placeholder="Email" name="email_otp">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <div class="col-xs-12 pb-3">
+                                            <button class="btn btn-block btn-lg" type="button" onclick="send_email()"
+                                                style="background-color: #264252; color: white;">Get OTP</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <p class="text-danger text-center" id="already_exist"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- second div -->
+        <div id="second" style="display: none;">
+            <div class="container">
+                <br><br>
+                <div class="alert alert-success alert-dismissible text-center">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    <strong>Success!</strong> Please Check Your Email For OTP.
+                </div>
+            </div>
+            <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+                <div class="auth-box">
+                    <div>
+
+                        <div class="logo">
+                            <span class="db"><img src="{% static 'assets/images/logos/logo-icon.png' %}"
+                                    alt="logo" /></span>
+                            <h5 class="font-medium mb-3">Enter OTP</h5>
+                        </div>
+                        <!-- Form -->
+                        <div class="row">
+                            <div class="col-12">
+                                <form class="form-horizontal mt-3" action="" method="">
+
+                                    <div class="form-group row">
+                                        <div class="col-12">
+                                            <input class="form-control form-control-lg" id="otp" type="text" required
+                                                placeholder="Enter OTP" name="otp">
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <div class="col-xs-12 pb-3">
+                                            <button class="btn btn-block btn-lg" type="button" onclick="send_otp()"
+                                                style="background-color: #264252; color: white;">Confirm OTP</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-success alert-dismissible text-center" id="alert"
+                            style="display: none;">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <strong id="otp_wrong"></strong>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- third div  -->
+        <div id="third" style="display: none;">
+            <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+                <div class="auth-box">
+                    <div>
+                        <div class="logo">
+                            <span class="db"><img src="{% static 'assets/images/logos/logo-icon.png' %}"
+                                    alt="logo" /></span>
+                            <h5 class="font-medium mb-3">Sign Up to Admin</h5>
+                        </div>
+                        <!-- Form -->
+                        <div class="row">
+                            <div class="col-12">
+                                <form class="form-horizontal mt-3" action="{% url 'staff_signup' %}" method="POST">
+                                    {% csrf_token %}
+
+                                    <div class="form-group row ">
+                                        <div class="col-12 ">
+                                            {{form1.email}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 ">
+                                            {{form2.company_name}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 ">
+                                            {{form1.password1}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-12 ">
+                                            {{form1.password2}}
+                                        </div>
+                                    </div>
+                                    <div class="form-group text-center ">
+                                        <div class="col-xs-12 pb-3 ">
+                                            <button class="btn btn-block btn-lg " type="submit "
+                                                style="background-color: #264252; color: white;">SIGN UP</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-0 mt-2 ">
+                                        <div class="col-sm-12 text-center ">
+                                            Already have an account? <a href="{% url 'login' %}"
+                                                class="text-info ml-1 "><b>Sign In</b></a>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ============================================================== -->
+        <!-- Right Sidebar -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- All Required js -->
+    <!-- ============================================================== -->
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugin js -->
+    <!-- ============================================================== -->
+    <script>
+        $('[data-toggle="tooltip"]').tooltip();
+        $(".preloader").fadeOut();
+    </script>
+    <script>
+
+
+        function send_email() {
+
+            $('#cover-spin').show(0);
+            var final = [];
+
+             try {
+                email_data = {
+                    email: document.getElementById('email_otp').value,
+                }
+                if (email_data.email.length > 0) {
+                    final.push(email_data);
+                }
+                else{
+
+                    document.getElementById('already_exist').innerHTML = 'Please fill the input !'
+                }
+            } catch (e) { }
+
+
+            fetch("/email_auth/", {
+                method: "POST",
+                body: JSON.stringify({
+                    data_obj: final,
+
+                }),
+
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                        return;
+                    }
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Success: ", data);
+                    if (data.msg == 'success') {
+                        $('#cover-spin').hide(0);
+                        document.getElementById('first').style.display = 'none';
+                        document.getElementById('second').style.display = 'block';
+                    }
+                    else {
+                        $('#cover-spin').hide(0);
+                        document.getElementById('already_exist').innerHTML = 'This Email Is Already Exist'
+                    }
+                });
+
+
+
+
+        }
+
+
+        function send_otp() {
+            $('#cover-spin').show(0);
+            var final = [];
+            try {
+                otp_data = {
+                    email: document.getElementById('email_otp').value,
+                    otp: document.getElementById('otp').value,
+                }
+                if (otp_data.otp.length > 0) {
+                    final.push(otp_data);
+                }
+                else {
+                    document.getElementById('already_exist').innerHTML = 'Please fill the input !'
+                }
+            } catch (e) { }
+
+            data_obj = {
+                email: document.getElementById('email_otp').value,
+                otp: document.getElementById('otp').value,
+            };
+
+            final.push(data_obj);
+
+            console.log("final", final);
+
+
+            fetch("/otp_verify/", {
+                method: "POST",
+                body: JSON.stringify({
+                    data_obj: final,
+
+                }),
+
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                        return;
+                    }
+
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Success: ", data);
+                    if (data.msg == 'success') {
+
+                        $('#cover-spin').hide(0);
+                        document.getElementById('first').style.display = 'none';
+                        document.getElementById('second').style.display = 'none';
+                        document.getElementById('third').style.display = 'block';
+
+                    } else {
+
+                        $('#cover-spin').hide(0);
+                        document.getElementById('alert').style.display = 'block';
+                        document.getElementById('otp_wrong').innerHTML = 'Wrong OTP, Please Try It Again';
+                    }
+
+
+                });
+            var gmail = document.getElementById('email_otp').value;
+            document.getElementById('id_email').value = gmail;
+
+
+
+
+        }
+
+        document.getElementById('id_company_name').classList.add('form-control');
+        document.getElementById('id_email').classList.add('form-control');
+        document.getElementById('id_password1').classList.add('form-control');
+        document.getElementById('id_password2').classList.add('form-control');
+        document.getElementById('id_company_name').placeholder = "Institution Name";
+        document.getElementById('id_email').placeholder = "Email";
+        document.getElementById('id_password1').placeholder = "Password";
+        document.getElementById('id_password2').placeholder = "Confirm Password";
+    </script>
+</body>
+
+</html>

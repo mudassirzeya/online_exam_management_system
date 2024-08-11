@@ -1,0 +1,23 @@
+{% extends "each_exam_base.html" %}
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-hover table-bordered" id="file_export">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>email</th>
+                <!-- <th>password</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td>{{student.user.user.first_name}}</td>
+                <td>{{student.user.user.email}}</td>
+                <!-- <td>{{student.user.user.password}}</td> -->
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

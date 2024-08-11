@@ -1,0 +1,527 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Exam Time</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js"> -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/live_exam_page.css' %}">
+    <style>
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%;
+            top: 40%;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+
+        #cover-spin {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.7);
+            z-index: 9999;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            from {
+                -webkit-transform: rotate(0deg);
+            }
+
+            to {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        #cover-spin::after {
+            content: '';
+            display: block;
+            position: absolute;
+            left: 48%;
+            top: 40%;
+            width: 40px;
+            height: 40px;
+            border-style: solid;
+            border-color: black;
+            border-top-color: transparent;
+            border-width: 4px;
+            border-radius: 50%;
+            -webkit-animation: spin .8s linear infinite;
+            animation: spin .8s linear infinite;
+        }
+
+        .nav-pills-custom .nav-link {
+            color: #aaa;
+            background: #fff;
+            position: relative;
+        }
+
+        .nav-pills-custom .nav-link.active {
+            color: #45b649;
+            background: #fff;
+        }
+
+        .done{
+            /* color: #0b0fe0; */
+            background-color: #E10D1A;
+        }
+        
+        .notdone{
+            /* color: #0b0fe0; */
+            background-color: #88e6f7;
+        }
+
+        /* .nav {
+            background-color: #000 !important;
+        } */
+
+        /* .nav>li>a {
+            background-color: rgb(149, 243, 255) !important;
+            color: #fff;
+        } */
+
+        
+    </style>
+
+</head>
+
+<body>
+    <div id="cover-spin"></div>
+    <div class="container">
+        <h2>{{current_exam.company.company_name}}</h2>
+        <p class="text-danger">Please be infront of the camera, we are watching you through your front camera & also you tabs change are recording by us.</p>
+        <div class="row" >
+            <div class="col" >
+                <div class="text-center pb-4">
+                    <div class="h3 text-danger">{{request.user.first_name}} Attempted <span class="" id="total"></span> 
+                        of {{questions_count}} Questions </div>
+                </div>
+                <div class="text-center">
+                    <h4 class="bold text-danger"><span>Time Remaining: </span> <span id="demo" ></span></h4>
+                </div>
+                <div class="text-center">
+                    <button class="btn-danger w-50 " onclick="submit_exit()" >Submit & Exit</button>
+                </div>
+            </div>
+            <div class="col" >
+                <div class="d-flex justify-content-end">
+                    <video id="video" src=""></video>
+                </div>
+            </div>
+        </div>
+        <div id="submit_exit" style="display: none;">
+            <h3 id="exam-info" ></h3>
+        </div>
+        <div id="exam-section">
+        <ul class="nav nav-tabs ">
+            {% for section in user_atempt %}
+            <li class="{% if forloop.counter == 1 %} active {% endif %}">
+                <a class="text-danger" data-toggle="tab" href="#pills_{{section.0.id}}">{{section.0.section}}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+        {% for section in user_atempt %}
+            <div id="pills_{{section.0.id}}" class="tab-pane fade in {% if forloop.counter == 1 %} active {% endif %}">
+                <hr>
+                <ul class="nav nav-tabs ">
+                    {% for question in section.1 %}
+                    <li class="{% if forloop.counter == 1 %} active {% endif %}">
+                        <a class=" {% if  question.answer != 'no'  %} done text-white {% else %} notdone text-danger {% endif %}" data-toggle="tab" id="pill-{{question.question.id}}-tab" 
+                        href="#pills_{{question.question.id}}-tab">{{forloop.counter}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <div class="tab-content">
+                    {% for question in section.1 %}
+                    <div id="pills_{{question.question.id}}-tab" class="tab-pane fade in
+                    {% if forloop.counter == 1 %} active {% endif %}">
+                    <div class="wrapper">
+                        <div class="wrap" id="q1">
+                            <div class="h4 font-weight-bold">
+                                <strong class="text-danger">Q)</strong>{{question.question.question_text}}
+                            </div>
+                            {% if question.question.question_image|length > 5 %}
+                            <br><img src="{{question.question.question_image}}" style="max-width:100%">
+                            {% endif %}
+                            <div class="pt-4">
+                                <form> 
+                                    <label class="options">{{question.question.option_a}} 
+                                        {% if question.question.option_a_image|length > 5 %}
+                                        <br><img src="{{question.question.option_a_image}}" style="max-width:100%">
+                                        {% endif %}
+                                        <input type="radio" name="radio_{{question.question.id}}" id="a_{{question.question.id}}"      onclick="send_answer(this)"
+                                            value="a"
+                                            {% if question.answer == 'a' %}
+                                                    checked
+                                            {% endif %}
+                                        > 
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="options">{{question.question.option_b}}
+                                        {% if question.question.option_b_image|length > 5 %}
+                                        <br><img src="{{question.question.option_b_image}}" style="max-width:100%">
+                                        {% endif %}
+                                        <input type="radio" name="radio_{{question.question.id}}" id="b_{{question.question.id}}" onclick="send_answer(this)"
+                                            value="b"
+                                            {% if question.answer == 'b' %}
+                                                    checked
+                                            {% endif %}
+                                        > 
+                                        <span class="checkmark"></span>
+                                    </label>
+                                    <label class="options">{{question.question.option_c}}
+                                        {% if question.question.option_c_image|length > 5 %}
+                                        <br><img src="{{question.question.option_c_image}}" style="max-width:100%">
+                                        {% endif %}
+                                        <input type="radio" name="radio_{{question.question.id}}" id="c_{{question.question.id}}" onclick="send_answer(this)"
+                                            value="c"
+                                            {% if question.answer == 'c' %}
+                                                    checked
+                                            {% endif %}
+                                        >
+                                         <span class="checkmark"></span>
+                                    </label> 
+                                    <label class="options">{{question.question.option_d}}
+                                        {% if question.question.option_d_image|length > 5 %}
+                                        <br><img src="{{question.question.option_d_image}}" style="max-width:100%">
+                                        {% endif %}
+                                        <input type="radio" name="radio_{{question.question.id}}" id="d_{{question.question.id}}" onclick="send_answer(this)"
+                                            value="d"
+                                            {% if question.answer == 'd' %}
+                                                    checked
+                                            {% endif %}
+                                        > 
+                                        <span class="checkmark"></span>
+                                    </label>
+                                </form>
+                            </div>
+                            <div class="d-flex align-items-center pt-3">
+                                <div id="prev">
+                                    <button class="btn btn-primary" id="prev_{{question.question.id}}" onclick="prevPills(this)">
+                                        Previous
+                                    </button>
+                                 </div>
+                                <div class="ml-auto mr-sm-5"> 
+                                    <button class="btn btn-primary" id="next_{{question.question.id}}" onclick="nextPills(this)">
+                                        Next question
+                                    </button> 
+                                </div>
+                            </div>
+                            <br>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-outline-danger" id="clear_{{question.question.id}}" 
+                                    onclick="clear_answer(this)">
+                                    Clear answer
+                                </button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('total').innerHTML = document.getElementsByClassName('done').length;
+        var video = document.getElementById('video');
+            video.setAttribute('playsinline', '');
+            video.setAttribute('autoplay', '');
+            video.setAttribute('muted', '');
+            video.style.width = '400px';
+            video.style.height = '200px';
+
+            /* Setting up the constraint */
+            var facingMode = "user"; // Can be 'user' or 'environment' to access back or front camera (NEAT!)
+            var constraints = {
+                audio: false,
+                video: {
+                    facingMode: facingMode
+                }
+            };
+            /* Stream it to video element */
+            navigator.mediaDevices.getUserMedia(constraints).then(function success(stream) {
+                video.srcObject = stream;
+            });
+        
+        $(window).focus(function () {
+                //do something
+                console.log('not change')
+            });
+
+            $(window).blur(function () {
+                //do something
+                console.log('change')
+                alert("You can't change your tab during exam, you will be blacklisted if you did it again")
+            });
+        
+        function send_answer(t){
+            $('#cover-spin').show(0);
+            var question_id = t.id.split('_')[1];
+            var answer = t.value;
+            var pill_id = 'pill-' + question_id + '-tab';
+            var user_data = [];
+            exam_id = '{{current_exam.id}}';
+
+            try {
+                user_attend = {
+                    question: question_id,
+                    user_answer: answer,
+                    exam_id : exam_id,
+                }
+                if (user_attend.question.length > 0 && user_attend.user_answer.length > 0) {
+                    user_data.push(user_attend);
+                }
+            } catch (e) { }
+
+
+            fetch("/mark_answer/", {
+                method: "POST",
+                body: JSON.stringify({
+                    data_obj: user_data,
+                }),
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}",
+                },
+            })
+                .then((response) => {
+                    console.log(response);
+                    if (response.redirected) {
+                        window.location.href = response.url;
+                        return;
+                    }
+
+                    return response.json();
+                })
+                .then((data) => {
+                    console.log("Success: ", data);
+                    if (data.msg == 'success') {
+                        document.getElementById(pill_id).classList.remove("notdone", "text-danger");
+                        document.getElementById(pill_id).classList.add("done", "text-white");
+                        document.getElementById('total').innerHTML = document.getElementsByClassName('done').length;
+                        $('#cover-spin').hide(0);
+                    }
+                    else {
+                        document.getElementById('refresh_text').innerHTML = "Something went Wrong please refresh the page"
+                        document.getElementById('refresh_section').classList.remove("d-none");
+                        $('#cover-spin').hide(0);
+                    }
+                });
+        }
+
+        function clear_answer(t) {
+                var question_id = t.id.split('_')[1];
+                var pill_id = 'pill-' + question_id + '-tab';
+                $('#cover-spin').show(0);
+                exam_id = '{{current_exam.id}}';
+                user_data=[];
+                input_id = "radio_"+question_id;
+                console.log(input_id)
+
+
+                try {
+                    user_attend = {
+                        question: question_id,
+                        exam_id: exam_id,
+                    }
+                    if (user_attend.question.length > 0) {
+                        user_data.push(user_attend);
+                    }
+                } catch (e) { }
+
+                fetch("/clear_answer/", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        data_obj: user_data,
+                    }),
+                    // Adding headers to the request
+                    headers: {
+                        "Content-type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                            return;
+                        }
+                        return response.json();
+                    })
+                    .then((data) => {
+                        console.log("Success: ", data);
+                        if (data.msg == 'success') {
+                            document.getElementById(pill_id).classList.remove("done","text-white");
+                            document.getElementById(pill_id).classList.add("notdone", "text-danger");
+                            $(`input[name=${input_id}]`).attr('checked', false);
+                            document.getElementById('total').innerHTML = document.getElementsByClassName('done').length;
+                            $('#cover-spin').hide(0);
+                        }
+                        else {
+                            document.getElementById('refresh_text').innerHTML = "Something went Wrong please refresh the page"
+                            $('#cover-spin').hide(0);
+                        }
+                    });
+            }
+
+        
+        // timer script 
+        var countDownDate = '{{millisec}}'
+
+            var x = setInterval(function () {
+
+                // Get today's date and time
+                var now = new Date().getTime();
+
+                // Find the distance between now and the count down date
+                var distance = countDownDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Output the result in an element with id="demo"
+                document.getElementById("demo").innerHTML = hours + " : "
+                    + minutes + " : " + seconds;
+
+                // If the count down is over, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("demo").innerHTML = "Time Up !!!";
+                    document.getElementById("exam-section").style.display = 'none';
+                    document.getElementById("submit_exit").style.display = 'block';
+                    document.getElementById("exam-info").innerHTML = "Exam Is Over Now, You can't attemp any questions now !!";
+                    logout_user();
+                }
+            }, 1000);
+
+            function submit_exit(){
+                document.getElementById("exam-section").style.display = 'none';
+                document.getElementById("submit_exit").style.display = 'block';
+                document.getElementById("exam-info").innerHTML = "Congratulations !! You have Successfully Submitted Your Exam.";
+                logout_user();
+            }
+
+            function logout_user() {
+                fetch("/logout_student/", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        data_obj: 'switched',
+                    }),
+                    // Adding headers to the request
+                    headers: {
+                        "Content-type": "application/json",
+                        "X-CSRFToken": "{{ csrf_token }}",
+                    },
+                    })
+                    .then((response) => {
+                        console.log(response);
+                        if (response.redirected) {
+                            window.location.href = response.url;
+                            return;
+                        }
+
+                        return response.json();
+                    })
+                    .then((data) => {
+                        console.log("Success: ", data);
+                        // if (data.msg == 'success') {
+                        //     $('#cover-spin').hide(0);
+                        // }
+                        // else {
+                        //     $('#cover-spin').hide(0);
+                        // }
+                    });
+
+                }
+            
+            function nextPills(t) {
+                pills_id = parseInt(t.id.split('_')[1]) + 1;
+                console.log(pills_id)
+                $(`[href="#pills_${pills_id}-tab"]`).tab('show');
+            }
+
+            function prevPills(t) {
+                    pills_id = parseInt(t.id.split('_')[1]) - 1;
+                    console.log(pills_id)
+                    $(`[href="#pills_${pills_id}-tab"]`).tab('show');
+                }
+
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,65 @@
+from django.urls import path
+from .views import (
+    admin_page,
+    student_home,
+    staff_page,
+    staff_student_marksheet,
+    staff_each_student_marksheet,
+    create_exam,
+    each_exam_page,
+    question_upload,
+    add_students,
+    student_exam_page,
+    mark_answer,
+    clear_answer,
+    student_response_page,
+    students_of_this_exam,
+    questions_of_this_exam,
+    student_marksheet,
+    individual_student_marksheet,
+)
+
+
+urlpatterns = [
+    path("", student_home, name="student_home"),
+    path("admin_page", admin_page, name="admin_page"),
+    path("staff_page", staff_page, name="staff_page"),
+    path("staff_page/<str:pk>/staff_student_marksheet",
+         staff_student_marksheet, name="staff_student_marksheet"),
+    path('staff_page/<str:pk>/staff_student_marksheet/staff_individual_student_marksheet/<str:id>/',
+         staff_each_student_marksheet, name='staff_individual_student_marksheet'),
+    path("create_exam", create_exam, name="create_exam"),
+    path("exam_page/<str:pk>/", each_exam_page, name="exam_page"),
+    path("exam_page/<str:pk>/add_question/",
+         question_upload, name="add_question"),
+    path("exam_page/<str:pk>/add_student/", add_students, name="add_student"),
+    path(
+        "exam_page/<str:pk>/student_response_page/",
+        student_response_page,
+        name="student_response_page",
+    ),
+    path(
+        "exam_page/<str:pk>/added_student/",
+        students_of_this_exam,
+        name="added_student",
+    ),
+    path(
+        "exam_page/<str:pk>/added_question/",
+        questions_of_this_exam,
+        name="added_question",
+    ),
+    path(
+        "exam_page/<str:pk>/students_marksheet/",
+        student_marksheet,
+        name="students_marksheet",
+    ),
+    path(
+        "exam_page/<str:pk>/students_marksheet/individual_student_marksheet/<str:id>/",
+        individual_student_marksheet,
+        name="individual_student_marksheet",
+    ),
+    path("student_exam_page/<str:pk>/",
+         student_exam_page, name="student_exam_page"),
+    path("mark_answer/", mark_answer, name="mark_answer"),
+    path("clear_answer/", clear_answer, name="clear_answer"),
+]

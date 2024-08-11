@@ -1,0 +1,263 @@
+{% load static %}
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon.png' %}">
+    <title>Exam</title>
+    <link rel="canonical" href="https://www.wrappixel.com/templates/ampleadmin/" />
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/static.css'  %}">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+<![endif]-->
+<style>
+    a.disabled {
+            pointer-events: none;
+            cursor: default;
+    }
+    .disable-card {
+        background-color: rgb(70, 197, 236);
+        opacity: .4;
+    }
+</style>
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="">
+     
+            <!-- ============================================================== -->
+            <!-- Topbar header - style you can find in pages.scss -->
+            <!-- ============================================================== -->
+            <header class="topbar">
+                <nav class="navbar top-navbar navbar-expand-md navbar-dark bg-info">
+                    <div class="navbar-header">
+                        <!-- This is for the sidebar toggle which is visible on mobile only -->
+                        <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i
+                                class="ti-menu ti-close"></i></a>
+                        <a class="navbar-brand d-block d-md-none" href="index.html">
+                            <!-- Logo icon -->
+                            <b class="logo-icon">
+                                <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                                <!-- Dark Logo icon -->
+                                <!-- <img src="{% static 'assets/images/logos/logo-icon.png' %}" alt="homepage"
+                                    class="dark-logo" /> -->
+                                <!-- Light Logo icon -->
+                                <!-- <img src="{% static 'assets/images/logos/logo-light-icon.png' %}" alt="homepage"
+                                    class="light-logo" /> -->
+                            </b>
+                            <!--End Logo icon -->
+                            <!-- Logo text -->
+                            <span class="logo-text">
+                                <!-- dark Logo text -->
+                                <!-- <img src="{% static 'assets/images/logos/logo-text.png' %}" alt="homepage"
+                                    class="dark-logo" /> -->
+                                <!-- Light Logo text -->
+                                <img src="{% static 'assets/images/logos/logo-light-text.png' %}" class="light-logo"
+                                    alt="homepage" height="50" width="150" />
+                            </span>
+                        </a>
+                        <!-- ============================================================== -->
+                        <!-- End Logo -->
+                        <!-- ============================================================== -->
+                        <!-- ============================================================== -->
+                        <!-- Toggle which is visible on mobile only -->
+                        <!-- ============================================================== -->
+                        <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)"
+                            data-toggle="collapse" data-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent" aria-expanded="false"
+                            aria-label="Toggle navigation"><i class="ti-more"></i></a>
+                    </div>
+                    <!-- ============================================================== -->
+                    <!-- End Logo -->
+                    <!-- ============================================================== -->
+                    <div class="navbar-collapse collapse" id="navbarSupportedContent">
+                        <!-- ============================================================== -->
+                        <!-- toggle and nav items -->
+                        <!-- ============================================================== -->
+                        <ul class="navbar-nav float-left mr-auto">
+                            <!-- ============================================================== -->
+                            <!-- Logo -->
+                            <!-- ============================================================== -->
+                            <li class="nav-item border-right">
+                                <a class="nav-link navbar-brand d-none d-md-block" href="#">
+                                    <!-- Logo icon -->
+                                    <b class="logo-icon">
+                                        <!--You can put here icon as well // <i class="wi wi-sunset"></i> //-->
+                                        <!-- Dark Logo icon -->
+                                        <!-- <img src="{% static 'assets/images/logos/logo-icon.png' %}" alt="homepage"
+                                            class="dark-logo" /> -->
+                                        <!-- Light Logo icon -->
+                                        <!-- <img src="{% static 'assets/images/logos/logo-light-icon.png' %}" alt="homepage"
+                                            class="light-logo" /> -->
+                                    </b>
+                                    <!--End Logo icon -->
+                                    <!-- Logo text -->
+                                    <span class="logo-text">
+                                        <!-- dark Logo text -->
+                                        <!-- <img src="{% static 'assets/images/logos/logo-text.png' %}" alt="homepage"
+                                            class="dark-logo" /> -->
+                                        <!-- Light Logo text -->
+                                        <img src="{% static 'assets/images/logos/logo-light-text.png' %}"
+                                            class="light-logo" alt="homepage" height="50" width="150" />
+                                    </span>
+                                </a>
+                            </li>
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+                            <!-- ============================================================== -->
+
+                            <!-- ============================================================== -->
+                        </ul>
+                        <!-- ============================================================== -->
+                        <!-- Right side toggle and nav items -->
+                        <!-- ============================================================== -->
+                        <ul class="navbar-nav float-right">
+                            <!-- ============================================================== -->
+                            <!-- Search -->
+                            <!-- ============================================================== -->
+                            <li class="nav-item search-box">
+                                <!-- <form class="app-search d-none d-lg-block">
+                                <input type="text" class="form-control" placeholder="Search...">
+                                <a href="" class="active"><i class="fa fa-search"></i></a>
+                            </form> -->
+                            </li>
+                            <!-- ============================================================== -->
+                            <!-- User profile and search -->
+                            <!-- ============================================================== -->
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle waves-effect waves-dark pro-pic" href=""
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="ml-2 user-text font-medium">Hello,
+                                        {{request.user.first_name}}</span><span
+                                        class="fas fa-angle-down ml-2 user-text"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                                    <div class="d-flex no-block align-items-center p-3 mb-2 border-bottom">
+                                        <div class="ml-2">
+                                            <h4 class="mb-0">{{request.user.first_name}}</h4>
+                                            <p class=" mb-0 text-muted">{{request.user.email}}</p>
+                                        </div>
+                                    </div>
+
+                                    <a class="dropdown-item" href="{% url 'logout' %}"><i
+                                            class="fa fa-power-off mr-1 ml-1"></i>
+                                        Logout</a>
+                                </div>
+                            </li>
+
+                            <!-- ============================================================== -->
+                            <!-- User profile and search -->
+                            <!-- ============================================================== -->
+                        </ul>
+                    </div>
+                </nav>
+            </header>
+            <div class="page-wrapper">
+                <br>
+                <div class="text-center">
+                    <h2 class="text-info" >Your Allotted Exam</h2>
+                </div>
+                <!-- ============================================================== -->
+                <div class="page-content container-fluid">
+                    <div class="row">
+                        {% for exam in exam_allotted %}
+                        <div class="col-lg-3 col-md-6">
+                                <div class="card
+                                    {% if exam.associated_exam.exam_start_time > current_time %} disable-card
+                                    {% elif current_time > exam.associated_exam.exam_end_time %} disable-card
+                                    {% else %} bg-info card-hover {% endif %}">
+                                    <div class="card-body">
+                                        <a href="{% url 'student_exam_page' exam.associated_exam.id %}" 
+                                            class="{% if exam.associated_exam.exam_start_time > current_time %}disabled{% endif %}
+                                            {% if current_time > exam.associated_exam.exam_end_time %}disabled{% endif %}">
+                                            <div class=" flex-column">
+                                                <i class="ti-world font-20 text-white"></i>
+                                                <p class="text-white">{{exam.associated_exam.exam_start_time}}</p>
+                                                <h3 class="text-white font-medium">{{exam.associated_exam.exam_name}}</h3>
+                                                <div class="text-white mt-2">
+                                                <span class="text-white bg-danger">
+                                                    {% if exam.associated_exam.exam_start_time > current_time %}
+                                                        Exam is not started Yet, you can not open this exam.
+                                                    {% endif %}
+                                                    {% if current_time > exam.associated_exam.exam_end_time %}
+                                                        Times-Up!! Exam is Over ,You can not open this exam now.
+                                                    {% endif %}
+                                                </span>
+                                                </div>
+                                            </div>                                          
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <footer class="footer text-center">
+                    an online examination Platform.
+                    <br>
+                    <a href="https://idearise.co">@idearise.co</a>.
+                </footer>
+                <!-- ============================================================== -->
+                <!-- End footer -->
+                <!-- ============================================================== -->
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Page wrapper  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Wrapper -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- customizer Panel -->
+        <!-- ============================================================== -->
+
+        <!-- <div class="chat-windows"></div> -->
+        <!-- ============================================================== -->
+        <!-- All Jquery -->
+        <!-- ============================================================== -->
+        <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+        <!-- Bootstrap tether Core JavaScript -->
+        <script src="{% static 'assets/libs/popper.js/dist/umd/popper.min.js' %}"></script>
+        <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <!-- apps -->
+        <script src="{% static 'dist/js/app.min.js' %}"></script>
+        <script src="{% static 'dist/js/app.init.mini-sidebar.js' %}"></script>
+        <script src="{% static 'dist/js/app-style-switcher.js' %}"></script>
+        <!-- slimscrollbar scrollbar JavaScript -->
+        <script src="{% static 'assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+        <script src="{% static 'assets/extra-libs/sparkline/sparkline.js' %}"></script>
+        <!--Wave Effects -->
+        <script src="{% static 'dist/js/waves.js' %}"></script>
+        <!--Menu sidebar -->
+        <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
+        <!--Custom JavaScript -->
+        <script src="{% static 'dist/js/custom.min.js' %}"></script>
+</body>
+
+</html>

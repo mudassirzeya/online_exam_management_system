@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block breadcrumb %} 
+<h5 class="text-primary mb-0" style="font-weight: bold;"> Admin Page</h5> 
+{% endblock breadcrumb %}
+{% block content %}
+{% for message in messages %}
+<p class="text-danger text-center" id="messages">{{message}}</p>
+{% endfor %}
+<div class="row float-right">
+    <div class="btn-group ">
+        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            <i class="fas fa-plus"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right slideInUp">
+            <a class="dropdown-item" data-toggle="modal" data-target="#exampleModalCenter" href="javascript:void(0)">Create
+                New Exam</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" data-toggle="modal" data-target="#add_staff_modal" href="">Add More Staffs</a>
+            <div class="dropdown-divider"></div>
+        </div>
+    </div>
+</div>
+<div class="row d-flex justify-content-center mb-0 pb-0">
+    <div class="col-lg-3 col-md-6">
+        <div>
+            <div class="card bg-success">
+                <div class="card-body">
+                    <div class="d-flex no-block align-items-center">
+                        <div class="text-white">
+                            <h4><strong>Staffs:</strong> {{total_staff}}</h4>
+                            <h4><strong>Students:</strong> {{total_student}}</h4>
+                        </div>
+                        <div class="ml-auto">
+                            <span class="text-white display-6"><i class="fas fa-users"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+
+<div class="row">
+    {% for exam in my_exam %}
+    <div class="col-lg-3 col-md-6">
+        <a href="{% url 'exam_page' exam.id %}">
+            <div class="card card-hover bg-info">
+                <div class="card-body">
+                    <div class="d-flex no-block align-items-center">
+                        <div class="text-white">
+                            <span><strong>Exam name:</strong> {{exam.exam_name}}</span>
+                        </div>
+                        <div class="ml-auto">
+                            <span class="text-white display-6"><i class="fas fa-graduation-cap"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Modal for add exam-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info" id="exampleModalLongTitle">Create New Exam</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'create_exam' %}">
+                    {% csrf_token %}
+                    <div class="form-group mb-4">
+                        <label class="mr-sm-2" for="inlineFormCustomSelect">Name of Exam</label>
+                        <input type="text" class="form-control" placeholder="Exam Name" name="exam_name" id="exam" required>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-success" type="submit">Create</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal for add new staffs -->
+<div class="modal fade" id="add_staff_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info" id="exampleModalLongTitle">Add Staffs to access students answer sheet</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{% url 'add_new_staff' %}">
+                    {% csrf_token %}
+                    <div class="form-group mb-4">
+                        <label class="mr-sm-2" for="inlineFormCustomSelect">Staff's Email</label>
+                        <input type="email" class="form-control" placeholder="Email...." name="email" id="email" required>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label class="mr-sm-2" for="inlineFormCustomSelect">Staff's Name</label>
+                        <input type="text" class="form-control" placeholder="Name..." name="name" id="email" required>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-success" type="submit">Add staff & send them auto generated password</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('id_add_class').classList.add('form-control')
+    document.getElementById('id_section').classList.add('form-control')
+</script>
+
+
+{% endblock %}
